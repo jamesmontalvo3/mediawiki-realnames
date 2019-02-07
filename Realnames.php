@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
 Copyright 2011-2019 Finlay Beaton. All rights reserved.
@@ -30,33 +30,33 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 $wgExtensionCredits['parserhook'][] = array(
   'name' => 'Realnames',
-  'author' =>array('[http://ofbeaton.com/ Finlay Beaton]', '...'), 
+  'author' =>array('[http://ofbeaton.com/ Finlay Beaton]', '...'),
   'version' => '0.6.0',
-  'url' => 'http://www.mediawiki.org/wiki/Extension:Realnames', 
+  'url' => 'http://www.mediawiki.org/wiki/Extension:Realnames',
   'description' => 'Displays a user\'s real name everywhere',
  );
 
 /**
  * The format to apply to a user link.
  * @since 2011-09-15, 0.1
- * @see $wgRealnamesFormats 
- */ 
+ * @see $wgRealnamesFormats
+ */
 $wgRealnamesLinkStyle = 'paren-reverse';
 
 /**
- * The format to apply to a user's name in text. 
+ * The format to apply to a user's name in text.
  * This typically only replaces User: text in titles
  * @since 2011-09-16, 0.1
- */  
+ */
 $wgRealnamesBareStyle = false;
 
 /**
  * Do you want to show blank real names?
  * If this is false, then it will fall back on a 'replace' username style.
- * If true, then in a style like 'append' ( Joe [Joe Cardigan] )you will see: Joe []  
+ * If true, then in a style like 'append' ( Joe [Joe Cardigan] )you will see: Joe []
  * @note User:Joe text will still become Joe.
  * @since 2011-09-15, 0.1
- */    
+ */
 $wgRealnamesBlank = false;
 
 /**
@@ -77,25 +77,25 @@ $wgRealnamesReplacements = array(
 
 /**
  * Possible styles to pick from, you can define new ones as well.
- * The following variables are set:<br> 
+ * The following variables are set:<br>
  * \li $1  link start
  * \li $2  username
  * \li $3  real name
  * \li $4  link end
  * @note If you want to add markup, you should set $wgRealnamesBareStyle to a style without html (it's doesnt work in bare)
- * @since 2011-09-15, 0.1  
+ * @since 2011-09-15, 0.1
  */
-$wgRealnamesStyles = array( 
+$wgRealnamesStyles = array(
     'standard' => '$1$2$4',
     'append' => '$1$2 [$3]$4',
     'replace' => '$1$3$4',
     'reverse' => '$1$3 [$2]$4',
     'dash' => '$1$2 &ndash; $3$4',
-    'dash-reverse' => '$1$3$4 &ndash; $2',    
+    'dash-reverse' => '$1$3$4 &ndash; $2',
     'paren-append' => '$1$2 ($3)$4',
-    'paren-reverse' => '$1$3 ($2)$4', 
-  ); 
-  
+    'paren-reverse' => '$1$3 ($2)$4',
+  );
+
 /**
  * Allows you to turn off smart behaviour.
  * Set the var to FALSE to disable all,
@@ -104,32 +104,38 @@ $wgRealnamesStyles = array(
 $wgRealnamesSmart = array(
     'same' => TRUE,
   );
-  
+
+/**
+ * Allows specifying a function to modify realname display
+ * @since 2019-02-07
+ */
+$wgRealnamesFilterFn = false;
+
 /**
  * extra namespaces names to look for.
  * @note do not include the ':'
- * @note this is a regexp so escaping may be required. 
+ * @note this is a regexp so escaping may be required.
  * @since 2011-09-22, 0.2
- */ 
-$wgRealnamesNamespaces = array(); 
- 
+ */
+$wgRealnamesNamespaces = array();
+
 /* (not our var to doc)
  * Our extension class, it will load the first time the core tries to access it
- * @since 2011-09-16, 0.1  
- */ 
+ * @since 2011-09-16, 0.1
+ */
 $wgAutoloadClasses['ExtRealnames'] = dirname(__FILE__) . '/Realnames.body.php';
 
 /* (not our var to doc)
- * This hook is called before the article is displayed.  
- * @since 2011-09-16, 0.1  
+ * This hook is called before the article is displayed.
+ * @since 2011-09-16, 0.1
  * @see $wgAutoloadClasses for how the class gets defined.
- * @note OutputPageBeforeHTML does not work for Special pages like RecentChanges or ActiveUsers   
+ * @note OutputPageBeforeHTML does not work for Special pages like RecentChanges or ActiveUsers
  */
 $wgHooks['BeforePageDisplay'][] = 'ExtRealnames::hookBeforePageDisplay';
 
 /* (not our var to doc)
- * This hook is called before the user links are displayed.  
- * @since 2011-09-22, 0.2  
- * @see $wgAutoloadClasses for how the class gets defined.  
+ * This hook is called before the user links are displayed.
+ * @since 2011-09-22, 0.2
+ * @see $wgAutoloadClasses for how the class gets defined.
  */
 $wgHooks['PersonalUrls'][] = 'ExtRealnames::hookPersonalUrls';

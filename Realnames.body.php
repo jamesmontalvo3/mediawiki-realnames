@@ -297,7 +297,7 @@ class ExtRealnames {
         $personal_urls['userpage']['text'] = static::replace($m);
       }
     } // opt out
-    
+
     return true;
   } // function
 
@@ -373,6 +373,10 @@ class ExtRealnames {
         }
 
         $realname = $user->getRealname();
+        global $wgRealnamesFilterFn;
+        if ( is_callable( $wgRealnamesFilterFn ) ) {
+          $realname = call_user_func_array( $wgRealnamesFilterFn, [ $realname, $user ] );
+        }
       }
 
       static::$realnames[$m['username']] = htmlspecialchars( trim( $realname ));
